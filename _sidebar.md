@@ -1,3 +1,6 @@
 * [Home](/)
-* [Typescript](ts.md)
-* [Markdown](ts.md)
+* [General](/general.md)
+* [React](/react.md)
+* [Typescript](/typescript.md)
+* [Markdown](markdown.md)
+* [Next](next.md)
