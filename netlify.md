@@ -1,6 +1,6 @@
 # Netlify
 
-- Build failed:
+- Build failed, Treating warnings as errors because process.env.CI = true
 
 ```
   CI= yarn build
