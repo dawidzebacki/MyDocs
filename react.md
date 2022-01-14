@@ -34,3 +34,42 @@ const PrivateRoute = ({
   return <Route {...rest} render={routeComponent} />;
 };
 ```
+
+#### How I'm structuring directories
+
+```
+└── /src
+    ├── /assets
+    ├── /components
+    ├── /context
+    ├── /hooks
+    ├── /pages
+    ├── /services
+    ├── /utils
+    ├── App.js
+    └── index.js
+```
+
+```
+└── /src
+    ├── /components
+    |   ├── /Button
+    |   |   ├── Button.js
+    |   |   ├── Button.styles.js
+    |   |   ├── Button.test.js
+    |   |   ├── Button.stories.js
+    |   ├──index.js
+```
+
+- `Button.js` file that contains the actual React component
+- `Button.styles.js` file that contains corresponding styles
+- `Button.test.js` file that contains tests
+- `Button.stories.js` storybook file
+
+```js
+// /src/components/index.js
+import { Button } from "./Button/Button";
+export { Button };
+```
+
+- `index.js` acts as an index of all components that are part of the namesake directory.
