@@ -6,3 +6,5 @@
 - [Next](next.md)
 - [Git](git.md)
 - [Netlify](netlify.md)
+- [Javascript](/javascript.md)
+- [HTML](/html.md)
