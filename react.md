@@ -3,6 +3,7 @@
 - [Storybook](https://dev.to/estheragbaje/learn-to-use-storybookjs-in-your-react-project-4nf2)
 - [GraphQL Diving deep](https://dev.to/timecampus/graphql-diving-deep-4hnm)
 - [React Router Hooks](https://dev.to/dauntless/react-routers-useroutes-hook-38fc)
+- [React Testing](https://dev.to/ohdylan/react-component-testing-54ie)
 #### Private Route in react-router
 
 ```js
