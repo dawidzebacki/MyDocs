@@ -1,10 +1,18 @@
 # Git
 
 #### How to rebase?
+* [via GitLens](https://www.youtube.com/watch?v=P5p71fguFNI)
 
-```
+```bash
+// on your branch
 git rebase -i HEAD~number_of_commits
 git push origin your_branch_name --force-with-lease
+```
+
+```bash
+// all commits, e.g. on master
+git rebase -i --root
+git push origin master --force-with-lease`
 ```
 
 #### How to commit?
