@@ -8,3 +8,4 @@
 - [Netlify](netlify.md)
 - [Javascript](/javascript.md)
 - [HTML](/html.md)
+- [Graphics](/graphics.md)
