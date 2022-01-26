@@ -2,44 +2,117 @@
 
 - [Next.js combined plugins](https://github.com/hashicorp/next-mdx-enhanced/issues/18#issuecomment-859167393)
 
+#### Next.js private routes
+
+- [Article setup](https://medium.com/@eslamifard.ali/how-to-simply-create-a-private-route-in-next-js-38cab204a99c)
+<details>
+  <summary>TS file</summary>
+
 ```js
-/**
- * @type {import('next').NextConfig}
- */
+//@components/templates/PrivateRoute file
+import React from "react";
+import Router from "next/router";
+import { NextPageContext } from "next";
+import { NextPageWithLayout } from "pages/_app";
 
-const nextConfig = {
-  reactStrictMode: true,
-  serverRuntimeConfig: {
-    // Will only be available on the server side
-    graphqlEndpoint:
-      process.env.GRAPHQL_ENDPOINT || "http://api-gateway:4000/graphql",
-  },
-  publicRuntimeConfig: {
-    // Will be available on both server and client
-    graphqlClientEndpoint:
-      process.env.GRAPHQL_CLIENT_ENDPOINT ||
-      process.env.GRAPHQL_ENDPOINT ||
-      "http://localhost:4000/graphql",
-  },
+// Pointing to 403.tsx page (access denied)
+const accessDenied = "/403";
+
+interface Context extends NextPageContext {
+  auth: {
+    isAdmin: boolean,
+  };
+}
+
+const checkUserAuthentication = () => {
+  //TODO: create user/admin proper authentication
+  return { auth: null }; // no access
+  //   return { auth: { isAdmin: true } }; // access
 };
 
-const withImages = require("next-images");
-// const withPlugins = require('next-compose-plugins');
+const withPrivateRoute = (WrappedComponent: NextPageWithLayout) => {
+  const higherOrderComponent = ({ ...props }) => (
+    <WrappedComponent {...props} />
+  );
 
-// module.exports = withPlugins([withImages], nextConfig);
+  higherOrderComponent.getInitialProps = async (context: Context) => {
+    const userAuth = await checkUserAuthentication();
 
-// module.exports = (phase, { defaultConfig }) => {
-//   const plugins = [
-//     withImages({
-//       /* Plugin config here ... */
-//     }),
-//   ];
-//   return plugins.reduce((acc, next) => next(acc), nextConfig);
-// };
+    if (!userAuth?.auth) {
+      // Handle server-side and client-side rendering.
+      if (context.res) {
+        context.res?.writeHead(302, {
+          Location: accessDenied,
+        });
+        context.res?.end();
+      } else {
+        Router.push(accessDenied);
+      }
+    } else if (WrappedComponent.getInitialProps) {
+      const wrappedProps = (WrappedComponent.getInitialProps = async (
+        context: Context
+      ) => {
+        return {
+          ...context,
+          auth: userAuth,
+        };
+      });
 
-// next.config.js
-module.exports = () => {
-  const plugins = [withImages];
-  return plugins.reduce((acc, next) => next(acc), nextConfig);
+      return { ...wrappedProps, userAuth };
+    }
+
+    return { userAuth };
+  };
+
+  higherOrderComponent.getLayout = WrappedComponent.getLayout;
+
+  return higherOrderComponent;
 };
+
+export default withPrivateRoute;
+
+//Private Route page
+import type { ReactElement } from 'react';
+import { Layout } from '@components/templates/Layout';
+import { withPrivateRoute } from '@components/templates/PrivateRoute';
+
+const PrivateRoute = () => {
+  return <div>If you can see me, you have access to private routes!</div>;
+};
+
+PrivateRoute.getLayout = function getLayout(page: ReactElement) {
+  return <Layout title="Private route">{page}</Layout>;
+};
+
+export default withPrivateRoute(PrivateRoute);
+```
+
+</details>
+
+#### Next.js static images
+
+- declare proper extensions in your `types/global.d.ts` file.
+
+```jsx
+declare module '*.png';
+declare module '*.jpg';
+```
+
+- add disablingStaticImages to your `next.config.js` file.
+
+```jsx
+images: {
+    // disablingStaticImages resolves error with passing a reference of static image to component
+    disableStaticImages: true,
+},
+```
+
+- import static image files and set them as src.
+
+```jsx
+import background from "./background.png";
+
+export const Container = styled.div`
+  background-image: url(${background});
+`;
 ```
