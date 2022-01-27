@@ -5,8 +5,9 @@
 #### Next.js private routes
 
 - [Article setup](https://medium.com/@eslamifard.ali/how-to-simply-create-a-private-route-in-next-js-38cab204a99c)
+
 <details>
-  <summary>TS file</summary>
+<summary>TS file</summary>
 
 ```js
 //@components/templates/PrivateRoute file
@@ -132,7 +133,6 @@ Then add 2 files. .babelrc to the root folder. and \_document.js to pages
 
 <details>
 <summary>.babelrc</summary>
-</details>
 
 ```
 {
@@ -141,8 +141,10 @@ Then add 2 files. .babelrc to the root folder. and \_document.js to pages
 }
 ```
 
+</details>
+
 <details>
-<summary>_document.js</summary></details>
+<summary>_document.js</summary>
 
 ```js
 import Document from "next/document";
@@ -176,3 +178,5 @@ export default class MyDocument extends Document {
   }
 }
 ```
+
+</details>
