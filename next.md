@@ -119,7 +119,7 @@ export const Container = styled.div`
 
 #### Next.js with styled components
 
-- [Example app with styled-components](https://github.com/vercel/next.js/tree/canary/examples/with-styled-components3)
+- [Example app with styled-components](https://github.com/vercel/next.js/tree/canary/examples/with-styled-components)
 
 or you can install it yourself.
 
@@ -130,7 +130,9 @@ yarn add babel-plugin-styled-components
 
 Then add 2 files. .babelrc to the root folder. and \_document.js to pages
 
-- .babelrc
+<details>
+<summary>.babelrc</summary>
+</details>
 
 ```
 {
@@ -139,9 +141,10 @@ Then add 2 files. .babelrc to the root folder. and \_document.js to pages
 }
 ```
 
-- \_document.js
+<details>
+<summary>_document.js</summary></details>
 
-```jsx
+```js
 import Document from "next/document";
 import { ServerStyleSheet } from "styled-components";
 
