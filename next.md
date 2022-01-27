@@ -5,8 +5,9 @@
 #### Next.js private routes
 
 - [Article setup](https://medium.com/@eslamifard.ali/how-to-simply-create-a-private-route-in-next-js-38cab204a99c)
+
 <details>
-  <summary>TS file</summary>
+<summary>TS file</summary>
 
 ```js
 //@components/templates/PrivateRoute file
@@ -116,3 +117,66 @@ export const Container = styled.div`
   background-image: url(${background});
 `;
 ```
+
+#### Next.js with styled components
+
+- [Example app with styled-components](https://github.com/vercel/next.js/tree/canary/examples/with-styled-components)
+
+or you can install it yourself.
+
+```
+yarn add styled-components
+yarn add babel-plugin-styled-components
+```
+
+Then add 2 files. .babelrc to the root folder. and \_document.js to pages
+
+<details>
+<summary>.babelrc</summary>
+
+```
+{
+  "presets": ["next/babel"],
+  "plugins": ["styled-components"]
+}
+```
+
+</details>
+
+<details>
+<summary>_document.js</summary>
+
+```js
+import Document from "next/document";
+import { ServerStyleSheet } from "styled-components";
+
+export default class MyDocument extends Document {
+  static async getInitialProps(ctx) {
+    const sheet = new ServerStyleSheet();
+    const originalRenderPage = ctx.renderPage;
+
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App) => (props) =>
+            sheet.collectStyles(<App {...props} />),
+        });
+
+      const initialProps = await Document.getInitialProps(ctx);
+      return {
+        ...initialProps,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        ),
+      };
+    } finally {
+      sheet.seal();
+    }
+  }
+}
+```
+
+</details>
